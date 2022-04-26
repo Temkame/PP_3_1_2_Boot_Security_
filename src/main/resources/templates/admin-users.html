@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin panel | All users</title>
+</head>
+<body>
+<h2>Все пользователи</h2>
+<div>
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти">
+  </form>
+  <hr/>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Электронная почта</th>
+    </tr>
+
+    <tr th:each="user : ${users}">
+      <td th:text="${user.getId()}">Id</td>
+      <td th:text="${user.getName()}">Имя</td>
+      <td th:text="${user.getLastName()}">Фамилия</td>
+      <td th:text="${user.getEmail()}">Электронная почта</td>
+
+      <td>
+        <form th:action="@{/admin/users/edit/{id}(id=${user.id})}" th:object="${user}">
+          <button type="submit">Изменить</button>
+        </form>
+      </td>
+      <td>
+        <form th:action="@{/admin/users/delete(id=${user.id})}" method="post">
+          <input type="hidden" name="id" th:value="${user.id}">
+          <button type="submit">Удалить</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+  <form th:action="@{/admin/users/add}">
+    <button type="submit">Добавить нового пользователя</button>
+  </form>
+</div>
+
+</body>
+</html>
